@@ -7,12 +7,15 @@ import br.com.infnet.model.Produto;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("--- Exercicio 01 ---");
+        System.out.println("--- Exercicio 02 ---");
         System.out.println("----------------------------------");
 
         // Criar produtos
@@ -39,10 +42,19 @@ public class Main {
         Pagamento pagamento2 = new Pagamento(listaProdutos2, ontem, cliente2);
         Pagamento pagamento3 = new Pagamento(listaProdutos3, mesPassado, cliente3);
 
-        // Exibir informações dos pagamentos
-        exibirInformacoesPagamento(pagamento1);
-        exibirInformacoesPagamento(pagamento2);
-        exibirInformacoesPagamento(pagamento3);
+        // Criar uma lista de pagamentos
+        List<Pagamento> pagamentos = new ArrayList<>();
+        pagamentos.add(pagamento1);
+        pagamentos.add(pagamento2);
+        pagamentos.add(pagamento3);
+
+        // Ordenar os pagamentos pela data de compra (Exercicio 2)
+        Collections.sort(pagamentos);
+
+        // Exibir informações dos pagamentos ordenados
+        for (Pagamento pagamento : pagamentos) {
+            exibirInformacoesPagamento(pagamento);
+        }
     }
 
     public static void exibirInformacoesPagamento(Pagamento pagamento) {

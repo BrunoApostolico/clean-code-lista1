@@ -3,7 +3,7 @@ package br.com.infnet.model;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Pagamento {
+public class Pagamento implements Comparable<Pagamento> {
     private List<Produto> produtos;
     private LocalDate dataCompra;
     private Cliente cliente;
@@ -24,6 +24,11 @@ public class Pagamento {
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    @Override
+    public int compareTo(Pagamento outroPagamento) {
+        return this.dataCompra.compareTo(outroPagamento.dataCompra);
     }
 }
 
