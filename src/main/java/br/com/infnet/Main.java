@@ -10,18 +10,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("--- Exercicio 01 ---");
-        System.out.println("--- Exercicio 02 ---");
+        System.out.println("--- Exercicio 01 --- Criar produtos, clientes e pagamentos");
+        System.out.println("--- Exercicio 02 --- Ordenar pela data da compra");
+        System.out.println("--- Exercicio 03 --- Calcular a soma dos valores com optional e double");
         System.out.println("----------------------------------");
 
         // Criar produtos
-        Produto produto1 = new Produto("Musica 1", Path.of("caminho/para/musica1.mp3"), BigDecimal.valueOf(9.99));
+        Produto produto1 = new Produto("Musica 1", Path.of("caminho/para/musica1.mp3"), BigDecimal.valueOf(10.00));
         Produto produto2 = new Produto("Video 1", Path.of("caminho/para/video1.mp4"), BigDecimal.valueOf(19.99));
-        Produto produto3 = new Produto("Imagem 1", Path.of("caminho/para/imagem1.jpg"), BigDecimal.valueOf(4.99));
+        Produto produto3 = new Produto("Imagem 1", Path.of("caminho/para/imagem1.jpg"), BigDecimal.valueOf(5.50));
 
         // Criar clientes
         Cliente cliente1 = new Cliente("Bruno");
@@ -51,15 +53,19 @@ public class Main {
         // Ordenar os pagamentos pela data de compra (Exercicio 2)
         Collections.sort(pagamentos);
 
-        // Exibir informações dos pagamentos ordenados
+        // Calcular e exibir o valor total de cada pagamento
         for (Pagamento pagamento : pagamentos) {
-            exibirInformacoesPagamento(pagamento);
+            BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
+            BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
+            exibirInformacoesPagamento(pagamento, valorTotal, valorTotalDouble);
         }
     }
 
-    public static void exibirInformacoesPagamento(Pagamento pagamento) {
+    public static void exibirInformacoesPagamento(Pagamento pagamento, BigDecimal valorTotal, BigDecimal valorTotalDouble) {
         System.out.println("Cliente: " + pagamento.getCliente().getNome());
         System.out.println("Data da Compra: " + pagamento.getDataCompra());
+        System.out.println("Valor Total Optional: " + valorTotal);
+        System.out.println("Valor Total Double: " + valorTotalDouble);
         System.out.println("Produtos comprados:");
         for (Produto produto : pagamento.getProdutos()) {
             System.out.println("- " + produto.getNome());
