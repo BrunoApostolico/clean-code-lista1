@@ -110,6 +110,34 @@ public class Main {
             System.out.println("----------------------------------");
         }
 
+        // Calcular o valor total gasto por cada cliente (Exercicio 7)
+        Map<String, BigDecimal> mapaClienteGastos = new HashMap<>();
+        for (Map.Entry<String, List<Produto>> entry : mapaClienteProdutos.entrySet()) {
+            String nomeCliente = entry.getKey();
+            List<Produto> produtosCliente = entry.getValue();
+
+            BigDecimal valorTotal = produtosCliente.stream()
+                    .map(Produto::getPreco)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            mapaClienteGastos.put(nomeCliente, valorTotal);
+        }
+
+        // Encontrar o cliente que gastou mais
+        String clienteQueGastouMais = "";
+        BigDecimal maiorValorGasto = BigDecimal.ZERO;
+        for (Map.Entry<String, BigDecimal> entry : mapaClienteGastos.entrySet()) {
+            String nomeCliente = entry.getKey();
+            BigDecimal valorGasto = entry.getValue();
+
+            if (valorGasto.compareTo(maiorValorGasto) > 0) {
+                maiorValorGasto = valorGasto;
+                clienteQueGastouMais = nomeCliente;
+            }
+        }
+
+        // Imprimir o cliente que gastou mais
+        System.out.println("Cliente que gastou mais: " + clienteQueGastouMais);
     }
 
     public static void exibirInformacoesPagamento(Pagamento pagamento, BigDecimal valorTotal, BigDecimal valorTotalDouble, int quantidadeProdutos) {
