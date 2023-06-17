@@ -7,10 +7,7 @@ import br.com.infnet.model.Produto;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +15,9 @@ public class Main {
         System.out.println("--- Exercicio 01 --- Criar produtos, clientes e pagamentos");
         System.out.println("--- Exercicio 02 --- Ordenar pela data da compra");
         System.out.println("--- Exercicio 03 --- Calcular a soma dos valores com optional e double");
+        System.out.println("--- Exercicio 04 --- Calcular os valores de todos os pagamentos");
+        System.out.println("--- Exercicio 05 --- Imprimir a quantidade de produtos vendidos");
+        System.out.println("--- Exercicio 06 --- Criar um mapa de Clientes, produtos");
         System.out.println("----------------------------------");
 
         // Criar produtos
@@ -84,7 +84,31 @@ public class Main {
         }
 
         System.out.println("Valor Total de todos os pagamentos: " + valorTotalPagamentos);
+        System.out.println("----------------------------------");
 
+        // Criar o mapa de Cliente para List<Produto> (Exercicio 6)
+        Map<String, List<Produto>> mapaClienteProdutos = new HashMap<>();
+
+        // Associar os produtos a cada cliente no mapa
+        for (Pagamento pagamento : pagamentos) {
+            String nomeCliente = pagamento.getCliente().getNome();
+            List<Produto> produtosCliente = mapaClienteProdutos.getOrDefault(nomeCliente, new ArrayList<>());
+            produtosCliente.addAll(pagamento.getProdutos());
+            mapaClienteProdutos.put(nomeCliente, produtosCliente);
+        }
+
+        // Imprimir o mapa de Cliente para List<Produto>
+        for (Map.Entry<String, List<Produto>> entry : mapaClienteProdutos.entrySet()) {
+            String nomeCliente = entry.getKey();
+            List<Produto> produtosCliente = entry.getValue();
+
+            System.out.println("Cliente do Mapa: " + nomeCliente);
+            System.out.println("Produtos comprados:");
+            for (Produto produto : produtosCliente) {
+                System.out.println("- " + produto.getNome());
+            }
+            System.out.println("----------------------------------");
+        }
 
     }
 
