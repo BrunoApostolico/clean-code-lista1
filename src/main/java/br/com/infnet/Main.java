@@ -33,7 +33,7 @@ public class Main {
         // Criar uma lista de produtos para os pagamentos
         List<Produto> listaProdutos1 = List.of(produto1, produto2);
         List<Produto> listaProdutos2 = List.of(produto3);
-        List<Produto> listaProdutos3 = List.of(produto1, produto3);
+        List<Produto> listaProdutos3 = List.of(produto1, produto2, produto3);
 
         // Criar pagamentos com diferentes datas
         LocalDate hoje = LocalDate.now();
@@ -61,7 +61,7 @@ public class Main {
         }*/
 
         // Calcular o valor total de todos os pagamentos (Exercicio 4)
-        BigDecimal valorTotalPagamentos = BigDecimal.ZERO;
+/*        BigDecimal valorTotalPagamentos = BigDecimal.ZERO;
         for (Pagamento pagamento : pagamentos) {
             BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
             BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
@@ -69,10 +69,26 @@ public class Main {
             valorTotalPagamentos = valorTotalPagamentos.add(valorTotal);
         }
 
+        System.out.println("Valor Total de todos os pagamentos: " + valorTotalPagamentos);*/
+
+        // Imprimir a quantidade de produtos vendidos (Exercicio 5)
+        BigDecimal valorTotalPagamentos = BigDecimal.ZERO;
+        for (Pagamento pagamento : pagamentos) {
+            BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
+            BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
+
+            int quantidadeProdutos = pagamento.getQuantidadeProdutos();
+
+            exibirInformacoesPagamento(pagamento, valorTotal, valorTotalDouble, quantidadeProdutos);
+            valorTotalPagamentos = valorTotalPagamentos.add(valorTotal);
+        }
+
         System.out.println("Valor Total de todos os pagamentos: " + valorTotalPagamentos);
+
+
     }
 
-    public static void exibirInformacoesPagamento(Pagamento pagamento, BigDecimal valorTotal, BigDecimal valorTotalDouble) {
+    public static void exibirInformacoesPagamento(Pagamento pagamento, BigDecimal valorTotal, BigDecimal valorTotalDouble, int quantidadeProdutos) {
         System.out.println("Cliente: " + pagamento.getCliente().getNome());
         System.out.println("Data da Compra: " + pagamento.getDataCompra());
         System.out.println("Valor Total Optional: " + valorTotal);
@@ -81,6 +97,7 @@ public class Main {
         for (Produto produto : pagamento.getProdutos()) {
             System.out.println("- " + produto.getNome());
         }
+        System.out.println("Quantidade de produtos vendidos: " + quantidadeProdutos);
         System.out.println("----------------------------------");
     }
 }

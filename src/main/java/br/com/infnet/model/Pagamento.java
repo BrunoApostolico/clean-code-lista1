@@ -57,6 +57,10 @@ public class Pagamento implements Comparable<Pagamento> {
         return valorTotalDouble;
     }
 
+    public int getQuantidadeProdutos() {
+        return produtos.size();
+    }
+
     @Override
     public int compareTo(Pagamento outroPagamento) {
         return this.dataCompra.compareTo(outroPagamento.dataCompra);
