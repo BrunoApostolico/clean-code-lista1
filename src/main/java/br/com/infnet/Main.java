@@ -53,12 +53,23 @@ public class Main {
         // Ordenar os pagamentos pela data de compra (Exercicio 2)
         Collections.sort(pagamentos);
 
-        // Calcular e exibir o valor total de cada pagamento
+        // Calcular e exibir o valor total de cada pagamento (Exercicio 3)
+/*        for (Pagamento pagamento : pagamentos) {
+            BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
+            BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
+            exibirInformacoesPagamento(pagamento, valorTotal, valorTotalDouble);
+        }*/
+
+        // Calcular o valor total de todos os pagamentos (Exercicio 4)
+        BigDecimal valorTotalPagamentos = BigDecimal.ZERO;
         for (Pagamento pagamento : pagamentos) {
             BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
             BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
             exibirInformacoesPagamento(pagamento, valorTotal, valorTotalDouble);
+            valorTotalPagamentos = valorTotalPagamentos.add(valorTotal);
         }
+
+        System.out.println("Valor Total de todos os pagamentos: " + valorTotalPagamentos);
     }
 
     public static void exibirInformacoesPagamento(Pagamento pagamento, BigDecimal valorTotal, BigDecimal valorTotalDouble) {
