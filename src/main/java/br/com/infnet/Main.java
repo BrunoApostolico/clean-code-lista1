@@ -7,6 +7,7 @@ import br.com.infnet.model.Produto;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.*;
 
 public class Main {
@@ -18,6 +19,8 @@ public class Main {
         System.out.println("--- Exercicio 04 --- Calcular os valores de todos os pagamentos");
         System.out.println("--- Exercicio 05 --- Imprimir a quantidade de produtos vendidos");
         System.out.println("--- Exercicio 06 --- Criar um mapa de Clientes, produtos");
+        System.out.println("--- Exercicio 07 --- Cliente que gastou mais");
+        System.out.println("--- Exercicio 08 --- Quanto foi faturado por mês");
         System.out.println("----------------------------------");
 
         // Criar produtos
@@ -31,9 +34,9 @@ public class Main {
         Cliente cliente3 = new Cliente("Eloah");
 
         // Criar uma lista de produtos para os pagamentos
-        List<Produto> listaProdutos1 = List.of(produto1, produto2);
+        List<Produto> listaProdutos1 = List.of(produto1, produto2, produto3);
         List<Produto> listaProdutos2 = List.of(produto3);
-        List<Produto> listaProdutos3 = List.of(produto1, produto2, produto3);
+        List<Produto> listaProdutos3 = List.of(produto1, produto2);
 
         // Criar pagamentos com diferentes datas
         LocalDate hoje = LocalDate.now();
@@ -138,6 +141,28 @@ public class Main {
 
         // Imprimir o cliente que gastou mais
         System.out.println("Cliente que gastou mais: " + clienteQueGastouMais);
+        System.out.println("----------------------------------");
+
+        // Calcular o valor total gasto por mês
+        Map<YearMonth, BigDecimal> faturamentoPorMes = new TreeMap<>();
+        for (Pagamento pagamento : pagamentos) {
+            YearMonth mesPagamento = YearMonth.from(pagamento.getDataCompra());
+            BigDecimal valorPagamento = pagamento.calcularValorTotal(Optional.of(10.00));
+
+            BigDecimal valorTotalMes = faturamentoPorMes.getOrDefault(mesPagamento, BigDecimal.ZERO);
+            valorTotalMes = valorTotalMes.add(valorPagamento);
+            faturamentoPorMes.put(mesPagamento, valorTotalMes);
+        }
+
+        // Imprimir o faturamento por mês
+        for (Map.Entry<YearMonth, BigDecimal> entry : faturamentoPorMes.entrySet()) {
+            YearMonth mes = entry.getKey();
+            BigDecimal faturamento = entry.getValue();
+
+            System.out.println("Faturamento de " + mes + ": " + faturamento);
+            System.out.println("----------------------------------");
+        }
+
     }
 
     public static void exibirInformacoesPagamento(Pagamento pagamento, BigDecimal valorTotal, BigDecimal valorTotalDouble, int quantidadeProdutos) {
