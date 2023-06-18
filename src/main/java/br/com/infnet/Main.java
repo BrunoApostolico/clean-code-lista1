@@ -170,11 +170,25 @@ public class Main {
         Assinatura assinatura2 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(6), Optional.of(LocalDate.now().minusMonths(1)), cliente2);
         Assinatura assinatura3 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(2), Optional.of(LocalDate.now().minusDays(10)), cliente3);
 
-        // Impressão das assinaturas
+
+        // Impressão do tempo em meses das assinaturas ativas (Exercicio 10)
         System.out.println("Assinaturas:");
-        System.out.println(assinatura1);
-        System.out.println(assinatura2);
-        System.out.println(assinatura3);
+        if (assinatura1.isAtiva()) {
+            System.out.println(assinatura1);
+            System.out.println("Tempo de Assinatura: " + assinatura1.getTempoEmMeses() + " meses");
+        }else {
+            System.out.println(assinatura1);
+        }
+        if (assinatura2.isAtiva()) {
+            System.out.println("Assinatura 2: " + assinatura2.getTempoEmMeses() + " meses");
+        }else {
+            System.out.println(assinatura2);
+        }
+        if (assinatura3.isAtiva()) {
+            System.out.println("Assinatura 3: " + assinatura3.getTempoEmMeses() + " meses");
+        }else {
+            System.out.println(assinatura3);
+        }
 
     }
 

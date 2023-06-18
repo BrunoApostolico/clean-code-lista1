@@ -2,6 +2,7 @@ package br.com.infnet.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
     public class Assinatura {
@@ -15,6 +16,19 @@ import java.util.Optional;
             this.begin = begin;
             this.end = end;
             this.cliente = cliente;
+        }
+
+        public boolean isAtiva() {
+            return !end.isPresent();
+        }
+
+        public int getTempoEmMeses() {
+            if (isAtiva()) {
+                LocalDate dataAtual = LocalDate.now();
+                Period periodo = Period.between(begin, dataAtual);
+                return periodo.getMonths();
+            }
+            return 0;
         }
 
         @Override
