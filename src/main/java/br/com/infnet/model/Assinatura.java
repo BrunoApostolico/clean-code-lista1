@@ -10,18 +10,17 @@ import java.util.Optional;
         private Optional<LocalDate> end;
         private Cliente cliente;
 
-        public Assinatura(BigDecimal mensalidade, LocalDate begin, Cliente cliente) {
+        public Assinatura(BigDecimal mensalidade, LocalDate begin, Optional<LocalDate> end, Cliente cliente) {
             this.mensalidade = mensalidade;
             this.begin = begin;
-            this.end = Optional.empty();
+            this.end = end;
             this.cliente = cliente;
         }
 
-        public Assinatura(BigDecimal mensalidade, LocalDate begin, LocalDate end, Cliente cliente) {
-            this.mensalidade = mensalidade;
-            this.begin = begin;
-            this.end = Optional.of(end);
-            this.cliente = cliente;
+        @Override
+        public String toString() {
+            String status = end.isPresent() ? "Encerrada" : "Ativa";
+            return "Assinatura [Mensalidade: " + mensalidade + ", Inicio: " + begin + ", Fim: " + end.orElse(null) + ", Status: " + status + ", Cliente: " + cliente.getNome() + "]";
         }
 
         public BigDecimal getMensalidade() {

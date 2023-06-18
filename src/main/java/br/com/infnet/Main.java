@@ -1,5 +1,6 @@
 package br.com.infnet;
 
+import br.com.infnet.model.Assinatura;
 import br.com.infnet.model.Cliente;
 import br.com.infnet.model.Pagamento;
 import br.com.infnet.model.Produto;
@@ -21,6 +22,7 @@ public class Main {
         System.out.println("--- Exercicio 06 --- Criar um mapa de Clientes, produtos");
         System.out.println("--- Exercicio 07 --- Cliente que gastou mais");
         System.out.println("--- Exercicio 08 --- Quanto foi faturado por mês");
+        System.out.println("--- Exercicio 09 --- Criação de 3 assinaturas");
         System.out.println("----------------------------------");
 
         // Criar produtos
@@ -143,7 +145,7 @@ public class Main {
         System.out.println("Cliente que gastou mais: " + clienteQueGastouMais);
         System.out.println("----------------------------------");
 
-        // Calcular o valor total gasto por mês
+        // Calcular o valor total gasto por mês (Exercício 8)
         Map<YearMonth, BigDecimal> faturamentoPorMes = new TreeMap<>();
         for (Pagamento pagamento : pagamentos) {
             YearMonth mesPagamento = YearMonth.from(pagamento.getDataCompra());
@@ -162,6 +164,17 @@ public class Main {
             System.out.println("Faturamento de " + mes + ": " + faturamento);
             System.out.println("----------------------------------");
         }
+
+        // Criação das assinaturas (Exercício 9)
+        Assinatura assinatura1 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(3), Optional.empty(), cliente1);
+        Assinatura assinatura2 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(6), Optional.of(LocalDate.now().minusMonths(1)), cliente2);
+        Assinatura assinatura3 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(2), Optional.of(LocalDate.now().minusDays(10)), cliente3);
+
+        // Impressão das assinaturas
+        System.out.println("Assinaturas:");
+        System.out.println(assinatura1);
+        System.out.println(assinatura2);
+        System.out.println(assinatura3);
 
     }
 
