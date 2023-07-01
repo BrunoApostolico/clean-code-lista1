@@ -1,9 +1,6 @@
 package br.com.infnet;
 
-import br.com.infnet.model.Assinatura;
-import br.com.infnet.model.Cliente;
-import br.com.infnet.model.Pagamento;
-import br.com.infnet.model.Produto;
+import br.com.infnet.model.*;
 
 import java.math.BigDecimal;
 import java.nio.file.Path;
@@ -13,8 +10,8 @@ import java.util.*;
 public class LojaVirtualAcme {
     public static void main(String[] args) {
 
-        System.out.println("--- Exercicio 01 --- Criar produtos, clientes e pagamentos");
-        System.out.println("--- Exercicio 02 --- Ordenar pela data da compra");
+        System.out.println("--- Exercicio 01 --- Refatore o seu código para deixá-lo orientado a objetos.");
+        System.out.println("--- Exercicio 02 --- Crie 3 tipos de assinatura, anual, semestral e trimestral");
         System.out.println("--- Exercicio 03 --- Calcular a soma dos valores com optional e double");
         System.out.println("--- Exercicio 04 --- Calcular os valores de todos os pagamentos");
         System.out.println("--- Exercicio 05 --- Imprimir a quantidade de produtos vendidos");
@@ -36,6 +33,18 @@ public class LojaVirtualAcme {
         Cliente cliente1 = new Cliente("Bruno");
         Cliente cliente2 = new Cliente("Priscila");
         Cliente cliente3 = new Cliente("Eloah");
+
+
+        // Criando assinaturas
+        iAssinatura assinaturaAnual = new AssinaturaAnual(new BigDecimal("99.98"), LocalDate.now());
+        iAssinatura assinaturaSemestral = new AssinaturaSemestral(new BigDecimal("99.98"), LocalDate.now());
+        iAssinatura assinaturaTrimestral = new AssinaturaTrimestral(new BigDecimal("99.98"), LocalDate.now());
+
+        // Exemplo de utilização das assinaturas
+        System.out.println("Assinatura Anual: " + assinaturaAnual.getDataInicio() + " - " + assinaturaAnual.getDataFim());
+        System.out.println("Assinatura Semestral: " + assinaturaSemestral.getDataInicio() + " - " + assinaturaSemestral.getDataFim());
+        System.out.println("Assinatura Trimestral: " + assinaturaTrimestral.getDataInicio() + " - " + assinaturaTrimestral.getDataFim());
+        System.out.println("----------------------------------");
 
         // Criar uma lista de produtos para os pagamentos
         List<Produto> listaProdutos1 = Arrays.asList(produto1, produto2);
