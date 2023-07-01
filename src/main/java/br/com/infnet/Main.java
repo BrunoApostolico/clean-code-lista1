@@ -180,15 +180,25 @@ public class Main {
             System.out.println(assinatura1);
         }
         if (assinatura2.isAtiva()) {
-            System.out.println("Assinatura 2: " + assinatura2.getTempoEmMeses() + " meses");
+            System.out.println(assinatura2);
+            System.out.println("Tempo de Assinatura: " + assinatura2.getTempoEmMeses() + " meses");
         }else {
             System.out.println(assinatura2);
         }
         if (assinatura3.isAtiva()) {
-            System.out.println("Assinatura 3: " + assinatura3.getTempoEmMeses() + " meses");
+            System.out.println(assinatura3);
+            System.out.println("Tempo de Assinatura: " + assinatura3.getTempoEmMeses() + " meses");
         }else {
             System.out.println(assinatura3);
         }
+
+        // Impressão do tempo em meses entre start e end de todas as assinaturas (Exercício 11)
+        System.out.println("Tempo em meses entre start e end de todas as assinaturas:");
+        System.out.println("Assinatura 1: " + assinatura1.getTempoEmMesesTodos().orElse(0) + " meses");
+        System.out.println("Assinatura 2: " + assinatura2.getTempoEmMesesTodos().orElse(0) + " meses");
+        System.out.println("Assinatura 3: " + assinatura3.getTempoEmMesesTodos().orElse(0) + " meses");
+
+
 
     }
 

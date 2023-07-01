@@ -31,6 +31,15 @@ import java.util.Optional;
             return 0;
         }
 
+        public Optional<Integer> getTempoEmMesesTodos() {
+            if (end.isPresent()) {
+                LocalDate dataFim = end.get();
+                Period periodo = Period.between(begin, dataFim);
+                return Optional.of(periodo.getMonths());
+            }
+            return Optional.empty();
+        }
+
         @Override
         public String toString() {
             String status = end.isPresent() ? "Encerrada" : "Ativa";
