@@ -22,7 +22,7 @@ import java.util.Optional;
             return !end.isPresent();
         }
 
-        public int getTempoEmMeses() {
+        public int getTempoEmMesesAtiva() {
             if (isAtiva()) {
                 LocalDate dataAtual = LocalDate.now();
                 Period periodo = Period.between(begin, dataAtual);
@@ -38,6 +38,13 @@ import java.util.Optional;
                 return Optional.of(periodo.getMonths());
             }
             return Optional.empty();
+        }
+
+        public BigDecimal getValorPagoAteMomento() {
+            LocalDate dataAtual = LocalDate.now();
+            Period periodo = Period.between(begin, dataAtual);
+            int mesesPagos = periodo.getMonths();
+            return mensalidade.multiply(BigDecimal.valueOf(mesesPagos));
         }
 
         @Override

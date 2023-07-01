@@ -23,6 +23,9 @@ public class Main {
         System.out.println("--- Exercicio 07 --- Cliente que gastou mais");
         System.out.println("--- Exercicio 08 --- Quanto foi faturado por mês");
         System.out.println("--- Exercicio 09 --- Criação de 3 assinaturas");
+        System.out.println("--- Exercicio 10 --- Imprima o tempo em meses de alguma assinatura ainda ativa.");
+        System.out.println("--- Exercicio 11 --- Imprima o tempo de meses entre o start e end de todas assinaturas.");
+        System.out.println("--- Exercicio 12 --- Calcule o valor pago em cada assinatura até o momento.");
         System.out.println("----------------------------------");
 
         // Criar produtos
@@ -175,29 +178,36 @@ public class Main {
         System.out.println("Assinaturas:");
         if (assinatura1.isAtiva()) {
             System.out.println(assinatura1);
-            System.out.println("Tempo de Assinatura: " + assinatura1.getTempoEmMeses() + " meses");
+            System.out.println("Tempo de Assinatura: " + assinatura1.getTempoEmMesesAtiva() + " meses");
         }else {
             System.out.println(assinatura1);
         }
         if (assinatura2.isAtiva()) {
             System.out.println(assinatura2);
-            System.out.println("Tempo de Assinatura: " + assinatura2.getTempoEmMeses() + " meses");
+            System.out.println("Tempo de Assinatura: " + assinatura2.getTempoEmMesesAtiva() + " meses");
         }else {
             System.out.println(assinatura2);
         }
         if (assinatura3.isAtiva()) {
             System.out.println(assinatura3);
-            System.out.println("Tempo de Assinatura: " + assinatura3.getTempoEmMeses() + " meses");
+            System.out.println("Tempo de Assinatura: " + assinatura3.getTempoEmMesesAtiva() + " meses");
         }else {
             System.out.println(assinatura3);
-        }
+        }System.out.println("----------------------------------");
 
         // Impressão do tempo em meses entre start e end de todas as assinaturas (Exercício 11)
         System.out.println("Tempo em meses entre start e end de todas as assinaturas:");
         System.out.println("Assinatura 1: " + assinatura1.getTempoEmMesesTodos().orElse(0) + " meses");
         System.out.println("Assinatura 2: " + assinatura2.getTempoEmMesesTodos().orElse(0) + " meses");
         System.out.println("Assinatura 3: " + assinatura3.getTempoEmMesesTodos().orElse(0) + " meses");
+        System.out.println("----------------------------------");
 
+        // Impressão do valor pago em cada assinatura até o momento
+        System.out.println("Valor pago em cada assinatura até o momento:");
+        System.out.println("Assinatura 1: " + assinatura1.getValorPagoAteMomento());
+        System.out.println("Assinatura 2: " + assinatura2.getValorPagoAteMomento());
+        System.out.println("Assinatura 3: " + assinatura3.getValorPagoAteMomento());
+        System.out.println("----------------------------------");
 
 
     }
