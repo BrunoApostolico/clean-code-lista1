@@ -8,7 +8,6 @@ import br.com.infnet.model.Produto;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.*;
 
 public class Main {
@@ -39,9 +38,9 @@ public class Main {
         Cliente cliente3 = new Cliente("Eloah");
 
         // Criar uma lista de produtos para os pagamentos
-        List<Produto> listaProdutos1 = List.of(produto1, produto2, produto3);
-        List<Produto> listaProdutos2 = List.of(produto3);
-        List<Produto> listaProdutos3 = List.of(produto1, produto2);
+        List<Produto> listaProdutos1 = Arrays.asList(produto1, produto2);
+        List<Produto> listaProdutos2 = Collections.singletonList(produto3);
+        List<Produto> listaProdutos3 = Arrays.asList(produto1, produto2, produto3);
 
         // Criar pagamentos com diferentes datas
         LocalDate hoje = LocalDate.now();
@@ -53,13 +52,10 @@ public class Main {
         Pagamento pagamento3 = new Pagamento(listaProdutos3, mesPassado, cliente3);
 
         // Criar uma lista de pagamentos
-        List<Pagamento> pagamentos = new ArrayList<>();
-        pagamentos.add(pagamento1);
-        pagamentos.add(pagamento2);
-        pagamentos.add(pagamento3);
+        List<Pagamento> pagamentos = Arrays.asList(pagamento1, pagamento2, pagamento3);
 
         // Ordenar os pagamentos pela data de compra (Exercicio 2)
-        Collections.sort(pagamentos);
+        Collections.sort(pagamentos, Comparator.comparing(Pagamento::getDataCompra));
 
         // Calcular e exibir o valor total de cada pagamento (Exercicio 3)
 /*        for (Pagamento pagamento : pagamentos) {
@@ -80,12 +76,13 @@ public class Main {
         System.out.println("Valor Total de todos os pagamentos: " + valorTotalPagamentos);*/
 
         // Imprimir a quantidade de produtos vendidos (Exercicio 5)
+        System.out.println("Pagamentos ordenados pela data de compra:");
         BigDecimal valorTotalPagamentos = BigDecimal.ZERO;
         for (Pagamento pagamento : pagamentos) {
-            BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
+            BigDecimal valorTotal = pagamento.calcularValorTotal();
             BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
 
-            int quantidadeProdutos = pagamento.getQuantidadeProdutos();
+            int quantidadeProdutos = pagamento.getQuantidadeProdutosVendidos();
 
             exibirInformacoesPagamento(pagamento, valorTotal, valorTotalDouble, quantidadeProdutos);
             valorTotalPagamentos = valorTotalPagamentos.add(valorTotal);
@@ -118,54 +115,36 @@ public class Main {
             System.out.println("----------------------------------");
         }
 
-        // Calcular o valor total gasto por cada cliente (Exercicio 7)
-        Map<String, BigDecimal> mapaClienteGastos = new HashMap<>();
-        for (Map.Entry<String, List<Produto>> entry : mapaClienteProdutos.entrySet()) {
-            String nomeCliente = entry.getKey();
-            List<Produto> produtosCliente = entry.getValue();
-
-            BigDecimal valorTotal = produtosCliente.stream()
-                    .map(Produto::getPreco)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-            mapaClienteGastos.put(nomeCliente, valorTotal);
+        // Encontrar o cliente que gastou mais (Exercicio 7)
+        Map<Cliente, BigDecimal> gastosPorCliente = new HashMap<>();
+        for (Pagamento pagamento : pagamentos) {
+            Cliente cliente = pagamento.getCliente();
+            BigDecimal valorPago = gastosPorCliente.getOrDefault(cliente, BigDecimal.ZERO);
+            valorPago = valorPago.add(pagamento.calcularValorTotal());
+            gastosPorCliente.put(cliente, valorPago);
         }
 
-        // Encontrar o cliente que gastou mais
-        String clienteQueGastouMais = "";
-        BigDecimal maiorValorGasto = BigDecimal.ZERO;
-        for (Map.Entry<String, BigDecimal> entry : mapaClienteGastos.entrySet()) {
-            String nomeCliente = entry.getKey();
-            BigDecimal valorGasto = entry.getValue();
+        Cliente clienteComMaiorGasto = Collections.max(gastosPorCliente.entrySet(), Map.Entry.comparingByValue()).getKey();
+        BigDecimal maiorGasto = gastosPorCliente.get(clienteComMaiorGasto);
 
-            if (valorGasto.compareTo(maiorValorGasto) > 0) {
-                maiorValorGasto = valorGasto;
-                clienteQueGastouMais = nomeCliente;
-            }
-        }
-
-        // Imprimir o cliente que gastou mais
-        System.out.println("Cliente que gastou mais: " + clienteQueGastouMais);
+        System.out.println("Cliente que gastou mais: " + clienteComMaiorGasto.getNome());
+        System.out.println("Valor gasto: " + maiorGasto);
         System.out.println("----------------------------------");
 
         // Calcular o valor total gasto por mês (Exercício 8)
-        Map<YearMonth, BigDecimal> faturamentoPorMes = new TreeMap<>();
+        Map<Integer, BigDecimal> faturamentoPorMes = new HashMap<>();
         for (Pagamento pagamento : pagamentos) {
-            YearMonth mesPagamento = YearMonth.from(pagamento.getDataCompra());
-            BigDecimal valorPagamento = pagamento.calcularValorTotal(Optional.of(10.00));
-
-            BigDecimal valorTotalMes = faturamentoPorMes.getOrDefault(mesPagamento, BigDecimal.ZERO);
-            valorTotalMes = valorTotalMes.add(valorPagamento);
-            faturamentoPorMes.put(mesPagamento, valorTotalMes);
+            int mes = pagamento.getDataCompra().getMonthValue();
+            BigDecimal valorPago = faturamentoPorMes.getOrDefault(mes, BigDecimal.ZERO);
+            valorPago = valorPago.add(pagamento.calcularValorTotal());
+            faturamentoPorMes.put(mes, valorPago);
         }
 
-        // Imprimir o faturamento por mês
-        for (Map.Entry<YearMonth, BigDecimal> entry : faturamentoPorMes.entrySet()) {
-            YearMonth mes = entry.getKey();
-            BigDecimal faturamento = entry.getValue();
-
-            System.out.println("Faturamento de " + mes + ": " + faturamento);
-            System.out.println("----------------------------------");
+        System.out.println("Faturamento por mês:");
+        for (Map.Entry<Integer, BigDecimal> entry : faturamentoPorMes.entrySet()) {
+            int mes = entry.getKey();
+            BigDecimal valorFaturado = entry.getValue();
+            System.out.println("Mês " + mes + ": " + valorFaturado);
         }
 
         // Criação das assinaturas (Exercício 9)
@@ -173,33 +152,33 @@ public class Main {
         Assinatura assinatura2 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(6), Optional.of(LocalDate.now().minusMonths(1)), cliente2);
         Assinatura assinatura3 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(2), Optional.of(LocalDate.now().minusDays(10)), cliente3);
 
+        // Imprimindo as assinaturas
+        System.out.println("----------------------------------");
+        System.out.println("Assinaturas:");
+        System.out.println(assinatura1);
+        System.out.println(assinatura2);
+        System.out.println(assinatura3);
 
         // Impressão do tempo em meses das assinaturas ativas (Exercicio 10)
-        System.out.println("Assinaturas:");
+        System.out.println("----------------------------------");
+        System.out.println("Tempo de meses das assinaturas ativas:");
         if (assinatura1.isAtiva()) {
-            System.out.println(assinatura1);
-            System.out.println("Tempo de Assinatura: " + assinatura1.getTempoEmMesesAtiva() + " meses");
-        }else {
-            System.out.println(assinatura1);
+            System.out.println("Assinatura 1: " + assinatura1.getTempoEmMesesAtiva() + " meses");
         }
         if (assinatura2.isAtiva()) {
-            System.out.println(assinatura2);
-            System.out.println("Tempo de Assinatura: " + assinatura2.getTempoEmMesesAtiva() + " meses");
-        }else {
-            System.out.println(assinatura2);
+            System.out.println("Assinatura 2: " + assinatura2.getTempoEmMesesAtiva() + " meses");
         }
         if (assinatura3.isAtiva()) {
-            System.out.println(assinatura3);
-            System.out.println("Tempo de Assinatura: " + assinatura3.getTempoEmMesesAtiva() + " meses");
-        }else {
-            System.out.println(assinatura3);
-        }System.out.println("----------------------------------");
+            System.out.println("Assinatura 3: " + assinatura3.getTempoEmMesesAtiva() + " meses");
+        }
+
+        System.out.println("----------------------------------");
 
         // Impressão do tempo em meses entre start e end de todas as assinaturas (Exercício 11)
-        System.out.println("Tempo em meses entre start e end de todas as assinaturas:");
-        System.out.println("Assinatura 1: " + assinatura1.getTempoEmMesesTodos().orElse(0) + " meses");
-        System.out.println("Assinatura 2: " + assinatura2.getTempoEmMesesTodos().orElse(0) + " meses");
-        System.out.println("Assinatura 3: " + assinatura3.getTempoEmMesesTodos().orElse(0) + " meses");
+        System.out.println("Tempo de meses entre o início e o fim de todas as assinaturas:");
+        System.out.println("Assinatura 1: " + assinatura1.getTempoEntreInicioEFimEmMeses() + " meses");
+        System.out.println("Assinatura 2: " + assinatura2.getTempoEntreInicioEFimEmMeses() + " meses");
+        System.out.println("Assinatura 3: " + assinatura3.getTempoEntreInicioEFimEmMeses() + " meses");
         System.out.println("----------------------------------");
 
         // Impressão do valor pago em cada assinatura até o momento

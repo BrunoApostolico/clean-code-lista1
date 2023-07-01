@@ -31,13 +31,12 @@ import java.util.Optional;
             return 0;
         }
 
-        public Optional<Integer> getTempoEmMesesTodos() {
+        public int getTempoEntreInicioEFimEmMeses() {
             if (end.isPresent()) {
-                LocalDate dataFim = end.get();
-                Period periodo = Period.between(begin, dataFim);
-                return Optional.of(periodo.getMonths());
+                Period periodo = Period.between(begin, end.get());
+                return periodo.getMonths();
             }
-            return Optional.empty();
+            return 0;
         }
 
         public BigDecimal getValorPagoAteMomento() {
