@@ -1,39 +1,25 @@
-## Exercício - Lista 1:
+## Exercício - Lista 2:
 
-Implemente um projeto JAVA de uma Loja virtual ACME que vende downloads de músicas, videos e imagens.
+Seguindo os padrões de Cleancode e solid:
 
-Classes de modelo 
-Produto [String nome, Path file, BigDecimal Preco]
-Cliente [String Nome]
-Assinatura [BigDecimal mensalidade, begin, end (Optional) Cliente] Obs: Crie 2 construtores, um com o "end" e outro sem. 
+* Refatore o seu código para deixá-lo orientado a objetos.
 
-Quando um usuário realiza uma nova compra um "Pagamento" é utilizado para representá-la.
+* Crie 3 tipos de assinatura, anual, semestral e trimestral.
 
-Pagamento [List<Produtos>, dataCompra, Cliente]
+* Crie um método para calcular uma taxa para cada assinatura. Obs. Imagine que esse método rodará todo último dia do mes.
 
-1 - Crie uma Classe com um método main para criar alguns produtos, clientes e pagamentos. Crie Pagamentos com:  a data de hoje, ontem e um do mês passado.
+* Anual -> Isento da taxa.
 
-2 - Ordene e imprima os pagamentos pela data de compra.
+* Semestral -> 3% do valor total da assinatura até o presente momento.
 
-3 - Calcule e Imprima a soma dos valores de um pagamento com optional e recebendo um Double diretamente.
+* Trimestral -> 5% do valor total da assinatura até o presente momento.
 
-4 -  Calcule o Valor de todos os pagamentos da Lista de pagamentos.
+* Crie um atributo para controlar assinaturas com atraso de pagamento.
 
-5 - Imprima a quantidade de cada Produto vendido.
+* Crie um mecanismo para validar clientes que tentarem fazer compras com assinatura em atraso e não deixá-los comprar.
 
-6 - Crie um Mapa de <Cliente, List<Produto> , onde Cliente pode ser o nome do cliente. 
+* Rode o seu código no SonarQube.
 
-7 - Qual cliente gastou mais?
+* Se possuir problemas corrija-os... Se não, parabéns.
 
-8 - Quanto foi faturado em um determinado mês?
-
-9 - Crie 3 assinaturas com assinaturas de 99.98 reais, sendo 2 deles com assinaturas encerradas.
-
-10 - Imprima o tempo em meses de alguma assinatura ainda ativa.
-
-11 - Imprima o tempo de meses entre o start e end de todas assinaturas. Não utilize IFs para assinaturas sem end Time.
-
-12 - Calcule o valor pago em cada assinatura até o momento. 
-
-13 - Após finalizar faça o Pull do seu projeto para o GITHub colocando o nome do Grupo no Arquivo README
-
+* Coloque os prints do SonarQube dentro de uma pasta chamada sonar na raiz do seu projeto.

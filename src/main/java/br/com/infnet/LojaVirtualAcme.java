@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Main {
+public class LojaVirtualAcme {
     public static void main(String[] args) {
 
         System.out.println("--- Exercicio 01 --- Criar produtos, clientes e pagamentos");
@@ -28,9 +28,9 @@ public class Main {
         System.out.println("----------------------------------");
 
         // Criar produtos
-        Produto produto1 = new Produto("Musica 1", Path.of("caminho/para/musica1.mp3"), BigDecimal.valueOf(10.00));
-        Produto produto2 = new Produto("Video 1", Path.of("caminho/para/video1.mp4"), BigDecimal.valueOf(19.99));
-        Produto produto3 = new Produto("Imagem 1", Path.of("caminho/para/imagem1.jpg"), BigDecimal.valueOf(5.50));
+        Produto produto1 = new Produto("Musica 1", Path.of("caminho/para/musica1.mp3"), new BigDecimal("10.00"));
+        Produto produto2 = new Produto("Video 1", Path.of("caminho/para/video1.mp4"), new BigDecimal("19.99"));
+        Produto produto3 = new Produto("Imagem 1", Path.of("caminho/para/imagem1.jpg"), new BigDecimal("5.50"));
 
         // Criar clientes
         Cliente cliente1 = new Cliente("Bruno");
@@ -39,8 +39,8 @@ public class Main {
 
         // Criar uma lista de produtos para os pagamentos
         List<Produto> listaProdutos1 = Arrays.asList(produto1, produto2);
-        List<Produto> listaProdutos2 = Collections.singletonList(produto3);
-        List<Produto> listaProdutos3 = Arrays.asList(produto1, produto2, produto3);
+        List<Produto> listaProdutos2 = Arrays.asList(produto2, produto3);
+        List<Produto> listaProdutos3 = Arrays.asList(produto1, produto3);
 
         // Criar pagamentos com diferentes datas
         LocalDate hoje = LocalDate.now();
@@ -54,28 +54,8 @@ public class Main {
         // Criar uma lista de pagamentos
         List<Pagamento> pagamentos = Arrays.asList(pagamento1, pagamento2, pagamento3);
 
-        // Ordenar os pagamentos pela data de compra (Exercicio 2)
+        // Ordenar e imprimindo pagamentos pela data de compra
         Collections.sort(pagamentos, Comparator.comparing(Pagamento::getDataCompra));
-
-        // Calcular e exibir o valor total de cada pagamento (Exercicio 3)
-/*        for (Pagamento pagamento : pagamentos) {
-            BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
-            BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
-            exibirInformacoesPagamento(pagamento, valorTotal, valorTotalDouble);
-        }*/
-
-        // Calcular o valor total de todos os pagamentos (Exercicio 4)
-/*        BigDecimal valorTotalPagamentos = BigDecimal.ZERO;
-        for (Pagamento pagamento : pagamentos) {
-            BigDecimal valorTotal = pagamento.calcularValorTotal(Optional.of(10.0)); // Exemplo de desconto de 10% usando Optional
-            BigDecimal valorTotalDouble = pagamento.calcularValorTotalDouble(10.0); // Exemplo de desconto de 10% usando Double diretamente
-            exibirInformacoesPagamento(pagamento, valorTotal, valorTotalDouble);
-            valorTotalPagamentos = valorTotalPagamentos.add(valorTotal);
-        }
-
-        System.out.println("Valor Total de todos os pagamentos: " + valorTotalPagamentos);*/
-
-        // Imprimir a quantidade de produtos vendidos (Exercicio 5)
         System.out.println("Pagamentos ordenados pela data de compra:");
         BigDecimal valorTotalPagamentos = BigDecimal.ZERO;
         for (Pagamento pagamento : pagamentos) {
@@ -152,40 +132,36 @@ public class Main {
         Assinatura assinatura2 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(6), Optional.of(LocalDate.now().minusMonths(1)), cliente2);
         Assinatura assinatura3 = new Assinatura(new BigDecimal("99.98"), LocalDate.now().minusMonths(2), Optional.of(LocalDate.now().minusDays(10)), cliente3);
 
-        // Imprimindo as assinaturas
-        System.out.println("----------------------------------");
-        System.out.println("Assinaturas:");
-        System.out.println(assinatura1);
-        System.out.println(assinatura2);
-        System.out.println(assinatura3);
+        List<Assinatura> assinaturas = Arrays.asList(assinatura1, assinatura2, assinatura3);
+
 
         // Impressão do tempo em meses das assinaturas ativas (Exercicio 10)
         System.out.println("----------------------------------");
         System.out.println("Tempo de meses das assinaturas ativas:");
-        if (assinatura1.isAtiva()) {
-            System.out.println("Assinatura 1: " + assinatura1.getTempoEmMesesAtiva() + " meses");
-        }
-        if (assinatura2.isAtiva()) {
-            System.out.println("Assinatura 2: " + assinatura2.getTempoEmMesesAtiva() + " meses");
-        }
-        if (assinatura3.isAtiva()) {
-            System.out.println("Assinatura 3: " + assinatura3.getTempoEmMesesAtiva() + " meses");
+        for (Assinatura assinatura : assinaturas) {
+            if (assinatura.isAtiva()) {
+                int tempoEmMeses = assinatura.getTempoEmMesesAtiva();
+                System.out.println(assinatura);
+                System.out.println("Tempo em meses: " + tempoEmMeses);
+            }
         }
 
         System.out.println("----------------------------------");
 
         // Impressão do tempo em meses entre start e end de todas as assinaturas (Exercício 11)
-        System.out.println("Tempo de meses entre o início e o fim de todas as assinaturas:");
-        System.out.println("Assinatura 1: " + assinatura1.getTempoEntreInicioEFimEmMeses() + " meses");
-        System.out.println("Assinatura 2: " + assinatura2.getTempoEntreInicioEFimEmMeses() + " meses");
-        System.out.println("Assinatura 3: " + assinatura3.getTempoEntreInicioEFimEmMeses() + " meses");
+        System.out.println("Tempo em meses entre o início e o fim de todas as assinaturas:");
+        for (Assinatura assinatura : assinaturas) {
+            int tempoEntreInicioEFimEmMeses = assinatura.getTempoEntreInicioEFimEmMeses();
+            System.out.println(assinatura + " - " + tempoEntreInicioEFimEmMeses + " meses");
+        }
         System.out.println("----------------------------------");
 
         // Impressão do valor pago em cada assinatura até o momento
         System.out.println("Valor pago em cada assinatura até o momento:");
-        System.out.println("Assinatura 1: " + assinatura1.getValorPagoAteMomento());
-        System.out.println("Assinatura 2: " + assinatura2.getValorPagoAteMomento());
-        System.out.println("Assinatura 3: " + assinatura3.getValorPagoAteMomento());
+        for (Assinatura assinatura : assinaturas) {
+            BigDecimal valorPagoAteMomento = assinatura.getValorPagoAteMomento();
+            System.out.println(assinatura + " - Valor pago: " + valorPagoAteMomento);
+        }
         System.out.println("----------------------------------");
 
 

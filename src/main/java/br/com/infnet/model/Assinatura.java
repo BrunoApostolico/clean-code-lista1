@@ -25,24 +25,21 @@ import java.util.Optional;
         public int getTempoEmMesesAtiva() {
             if (isAtiva()) {
                 LocalDate dataAtual = LocalDate.now();
-                Period periodo = Period.between(begin, dataAtual);
-                return periodo.getMonths();
+                return Period.between(begin, dataAtual).getMonths();
             }
             return 0;
         }
 
         public int getTempoEntreInicioEFimEmMeses() {
             if (end.isPresent()) {
-                Period periodo = Period.between(begin, end.get());
-                return periodo.getMonths();
+                return Period.between(begin, end.get()).getMonths();
             }
             return 0;
         }
 
         public BigDecimal getValorPagoAteMomento() {
             LocalDate dataAtual = LocalDate.now();
-            Period periodo = Period.between(begin, dataAtual);
-            int mesesPagos = periodo.getMonths();
+            int mesesPagos = Period.between(begin, dataAtual).getMonths();
             return mensalidade.multiply(BigDecimal.valueOf(mesesPagos));
         }
 
